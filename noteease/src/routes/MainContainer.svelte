@@ -95,6 +95,9 @@
 
 	let showSidebar = true;
 
+	// Derived selected note
+	$: selectedNote = notes.find(n => n.id === selectedNoteId);
+
 	// Demo: load with sample notes if first render
 	onMount(() => {
 		if (notes.length === 0) {
@@ -468,25 +471,21 @@
 			</div>
 		</aside>
 		<main class="main-area">
-			{#if selectedNoteId}
-				{#if notes.find(n => n.id === selectedNoteId) as note}
-					<div class="note-header">
-						<div>
-							<div class="note-title">{note.title}</div>
-							<div class="note-dates">
-								Created: {note.created.toLocaleString()} |
-								Updated: {note.updated.toLocaleString()}
-							</div>
-						</div>
-						<div class="note-actions">
-							<button aria-label="Edit" title="Edit" on:click={() => startEditing(note)}>✏️</button>
-							<button aria-label="Delete" title="Delete" on:click={() => deleteNote(note.id)}>🗑️</button>
+			{#if selectedNote}
+				<div class="note-header">
+					<div>
+						<div class="note-title">{selectedNote.title}</div>
+						<div class="note-dates">
+							Created: {selectedNote.created.toLocaleString()} |
+							Updated: {selectedNote.updated.toLocaleString()}
 						</div>
 					</div>
-					<div class="note-content">{note.content}</div>
-				{:else}
-					<div style="color:#aab8cc; font-size:1.1rem; margin-top:2.5em;">Note not found.</div>
-				{/if}
+					<div class="note-actions">
+						<button aria-label="Edit" title="Edit" on:click={() => startEditing(selectedNote)}>✏️</button>
+						<button aria-label="Delete" title="Delete" on:click={() => deleteNote(selectedNote.id)}>🗑️</button>
+					</div>
+				</div>
+				<div class="note-content">{selectedNote.content}</div>
 			{:else}
 				<div style="color:#aab8cc; font-size:1.1rem; margin-top:2.5em;">Select or create a note to get started.</div>
 			{/if}
