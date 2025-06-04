@@ -469,8 +469,7 @@
 		</aside>
 		<main class="main-area">
 			{#if selectedNoteId}
-				{#let note = notes.find(n => n.id === selectedNoteId)}
-					{#if note}
+				{#if notes.find(n => n.id === selectedNoteId) as note}
 					<div class="note-header">
 						<div>
 							<div class="note-title">{note.title}</div>
@@ -485,8 +484,9 @@
 						</div>
 					</div>
 					<div class="note-content">{note.content}</div>
-					{/if}
-				{/let}
+				{:else}
+					<div style="color:#aab8cc; font-size:1.1rem; margin-top:2.5em;">Note not found.</div>
+				{/if}
 			{:else}
 				<div style="color:#aab8cc; font-size:1.1rem; margin-top:2.5em;">Select or create a note to get started.</div>
 			{/if}
