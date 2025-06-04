@@ -93,8 +93,6 @@
 		});
 	}
 
-	let showSidebar = true;
-
 	// Derived selected note
 	$: selectedNote = notes.find(n => n.id === selectedNoteId);
 
@@ -442,7 +440,7 @@
 			<div class="categories">
 				<div class="categories-title">Categories</div>
 				<ul class="category-list">
-					{#each categories as cat}
+					{#each categories as cat (cat)}
 						<li
 							class:selected={selectedCategory === cat}
 							on:click={() => selectedCategory = cat}
@@ -457,7 +455,7 @@
 					{#if filterNotes().length === 0}
 						<div class="no-notes">No notes{selectedCategory !== 'All' ? ` in "${selectedCategory}"` : ''}</div>
 					{:else}
-						{#each filterNotes() as note}
+						{#each filterNotes() as note (note.id)}
 							<li
 								class:selected={selectedNoteId === note.id}
 								on:click={() => selectNote(note.id)}
@@ -511,7 +509,7 @@
 					<textarea bind:value={newNote.content} required maxlength="3000"/>
 					<label>Category</label>
 					<select bind:value={newNote.category}>
-						{#each categories.slice(1) as cat}
+						{#each categories.slice(1) as cat (cat)}
 							<option value={cat}>{cat}</option>
 						{/each}
 					</select>
